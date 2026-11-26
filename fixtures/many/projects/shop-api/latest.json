@@ -76,7 +76,7 @@
                           },
     "tests":  {
                   "total":  82,
-                  "failed":  0,
+                  "failed":  1,
                   "skipped":  1
               },
     "claude":  {

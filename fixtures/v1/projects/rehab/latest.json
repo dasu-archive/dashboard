@@ -7,16 +7,16 @@
   },
   "run": {
     "at": "2026-11-26T21:00:00+09:00",
-    "commit": "3f6c2a9e8b1d4f7a0c5e2b9d6a3f8c1e4b7d0a25",
+    "commit": "3751f3498849906ad5d0734cf7648987b58469f0",
     "branch": "main",
-    "build": 42
+    "build": 12
   },
   "qualityGate": {
     "status": "passed",
     "conditions": [
       { "metric": "newIssues", "comparator": "gt", "threshold": 0, "actual": 0, "status": "passed" },
       { "metric": "newHotspotsReviewed", "comparator": "lt", "threshold": 100, "actual": 100.0, "status": "passed" },
-      { "metric": "newCoverage", "comparator": "lt", "threshold": 80, "actual": 86.2, "status": "passed" },
+      { "metric": "newCoverage", "comparator": "lt", "threshold": 80, "actual": 84.2, "status": "passed" },
       { "metric": "newDuplication", "comparator": "gt", "threshold": 3, "actual": 1.2, "status": "passed" }
     ]
   },
@@ -24,69 +24,68 @@
     "overall": {
       "coverage": 72.4,
       "duplication": 2.1,
-      "lines": 4820,
-      "issues": { "reliability": 2, "security": 0, "maintainability": 4 },
+      "lines": 1483,
+      "issues": { "reliability": 2, "security": 0, "maintainability": 6 },
       "ratings": { "reliability": "C", "security": "A", "maintainability": "A" },
-      "linesToCover": 1240,
-      "uncoveredLines": 342,
-      "hotspots": { "total": 3, "reviewedPercent": 66.7 },
+      "linesToCover": 612,
+      "uncoveredLines": 169,
+      "hotspots": { "total": 2, "reviewedPercent": 100.0 },
       "acceptedIssues": 1
     },
     "newCode": {
-      "coverage": 86.2,
+      "coverage": 84.2,
       "duplication": 1.2,
-      "lines": 310,
       "issues": { "reliability": 0, "security": 0, "maintainability": 0 },
       "ratings": { "reliability": "A", "security": "A", "maintainability": "A" },
-      "linesToCover": 120,
-      "uncoveredLines": 17,
-      "hotspots": { "total": 0, "reviewedPercent": null },
+      "linesToCover": 95,
+      "uncoveredLines": 15,
+      "hotspots": { "total": 1, "reviewedPercent": 100.0 },
       "acceptedIssues": 0
     }
   },
   "newCodeDefinition": { "type": "previous_version", "value": null },
-  "tests": { "total": 128, "failed": 0, "skipped": 2 },
+  "tests": { "total": 6, "failed": 0, "skipped": 0 },
   "claude": {
-    "counts": { "transaction": 1, "concurrency": 2, "scale": 1, "failure": 1, "other": 0 },
+    "counts": { "transaction": 1, "concurrency": 1, "scale": 1, "failure": 1, "other": 1 },
     "findings": [
+      {
+        "category": "concurrency",
+        "severity": "high",
+        "file": "src/main/java/com/example/demo/domain/event/service/EventService.java",
+        "line": 58,
+        "message": "정원을 확인한 뒤 신청을 저장하는 check-then-act 구조예요. 요청이 동시에 오면 둘 다 확인을 통과해서 정원을 넘겨 저장될 수 있어요. 비관적 락이나 조건부 update로 막아야 해요.",
+        "firstSeen": "2026-11-21T21:00:00+09:00"
+      },
       {
         "category": "transaction",
         "severity": "high",
-        "file": "src/main/java/com/dasu/rehab/order/OrderService.java",
-        "line": 58,
-        "message": "같은 클래스 안에서 @Transactional 메서드 placeOrder()를 직접 호출해요. 프록시를 거치지 않아서 트랜잭션이 적용되지 않아요.",
-        "firstSeen": "2026-11-20T21:00:00+09:00"
-      },
-      {
-        "category": "concurrency",
-        "severity": "high",
-        "file": "src/main/java/com/dasu/rehab/stock/StockService.java",
-        "line": 41,
-        "message": "재고를 조회한 뒤 차감하는 check-then-act 구조예요. 주문이 동시에 들어오면 재고가 음수가 될 수 있어요.",
+        "file": "src/main/java/com/example/demo/domain/event/service/EventService.java",
+        "line": 42,
+        "message": "같은 클래스 안에서 @Transactional 메서드를 직접 호출해서 프록시를 거치지 않아요. 호출된 메서드의 트랜잭션 설정(propagation, readOnly)이 적용되지 않아요.",
         "firstSeen": "2026-11-22T21:00:00+09:00"
-      },
-      {
-        "category": "concurrency",
-        "severity": "medium",
-        "file": "src/main/java/com/dasu/rehab/coupon/CouponService.java",
-        "line": 27,
-        "message": "같은 쿠폰을 동시에 두 번 쓰는 요청을 막는 장치가 없어요.",
-        "firstSeen": "2026-11-26T21:00:00+09:00"
       },
       {
         "category": "scale",
         "severity": "medium",
-        "file": "src/main/java/com/dasu/rehab/order/OrderQueryService.java",
-        "line": 33,
-        "message": "주문 목록에서 회원을 하나씩 다시 조회해서 N+1 쿼리가 생겨요. List<Order>가 커지면 느려져요.",
+        "file": "src/main/java/com/example/demo/domain/event/repository/EventRepositoryCustomImpl.java",
+        "line": 31,
+        "message": "이벤트 검색이 페이징 없이 결과 전체를 가져와요. 데이터가 늘면 메모리 사용량과 응답 시간이 같이 커져요.",
         "firstSeen": "2026-11-24T21:00:00+09:00"
       },
       {
         "category": "failure",
+        "severity": "medium",
+        "file": "src/main/java/com/example/demo/config/exception/EventExceptionHandler.java",
+        "line": 24,
+        "message": "예상하지 못한 예외를 잡아 응답으로 바꾸면서 로그를 남기지 않아요. 장애가 나도 원인을 추적하기 어려워요.",
+        "firstSeen": "2026-11-25T21:00:00+09:00"
+      },
+      {
+        "category": "other",
         "severity": "low",
-        "file": "src/main/java/com/dasu/rehab/payment/PaymentClient.java",
-        "line": 19,
-        "message": "외부 결제 API 호출에 타임아웃이 없어요. 결제 서버가 느려지면 요청 스레드가 묶여요.",
+        "file": "src/main/java/com/example/demo/domain/event/entity/Applicant.java",
+        "line": null,
+        "message": "엔티티에 equals와 hashCode 기준이 없어요. 영속성 컨텍스트 밖에서 컬렉션에 담아 비교하면 같은 신청자를 다르게 볼 수 있어요.",
         "firstSeen": "2026-11-26T21:00:00+09:00"
       }
     ]
@@ -94,48 +93,62 @@
   "sonarIssues": [
     {
       "rule": "java:S2259",
-      "impacts": [{ "quality": "reliability", "severity": "high" }],
-      "file": "src/main/java/com/dasu/rehab/order/OrderService.java",
-      "line": 72,
-      "message": "A \"NullPointerException\" could be thrown; \"order\" is nullable here."
+      "impacts": [{ "quality": "reliability", "severity": "medium" }],
+      "file": "src/main/java/com/example/demo/domain/event/service/EventService.java",
+      "line": 71,
+      "message": "A \"NullPointerException\" could be thrown; \"event\" is nullable here."
     },
     {
-      "rule": "java:S3655",
+      "rule": "java:S2142",
       "impacts": [
         { "quality": "reliability", "severity": "medium" },
-        { "quality": "maintainability", "severity": "low" }
+        { "quality": "maintainability", "severity": "medium" }
       ],
-      "file": "src/main/java/com/dasu/rehab/member/MemberService.java",
-      "line": 31,
-      "message": "Call \"Optional#isPresent()\" or \"!Optional#isEmpty()\" before accessing the value."
+      "file": "src/main/java/com/example/demo/domain/event/service/EventService.java",
+      "line": 88,
+      "message": "Either re-interrupt this method or rethrow the \"InterruptedException\" that can be caught here."
     },
     {
-      "rule": "java:S1854",
+      "rule": "java:S3776",
+      "impacts": [{ "quality": "maintainability", "severity": "high" }],
+      "file": "src/main/java/com/example/demo/domain/event/repository/EventRepositoryCustomImpl.java",
+      "line": 27,
+      "message": "Refactor this method to reduce its Cognitive Complexity from 18 to the 15 allowed."
+    },
+    {
+      "rule": "java:S112",
       "impacts": [{ "quality": "maintainability", "severity": "medium" }],
-      "file": "src/main/java/com/dasu/rehab/cart/CartService.java",
-      "line": 45,
-      "message": "Remove this useless assignment to local variable \"total\"."
+      "file": "src/main/java/com/example/demo/config/exception/CustomException.java",
+      "line": 12,
+      "message": "Define and throw a dedicated exception instead of using a generic one."
     },
     {
-      "rule": "java:S1452",
+      "rule": "java:S1192",
       "impacts": [{ "quality": "maintainability", "severity": "low" }],
-      "file": "src/main/java/com/dasu/rehab/item/ItemRepository.java",
-      "line": 18,
-      "message": "Remove usage of generic wildcard type in List<? extends Item>."
+      "file": "src/main/java/com/example/demo/domain/event/controller/EventController.java",
+      "line": 35,
+      "message": "Define a constant instead of duplicating this literal \"eventId\" 3 times."
+    },
+    {
+      "rule": "java:S1128",
+      "impacts": [{ "quality": "maintainability", "severity": "low" }],
+      "file": "src/main/java/com/example/demo/config/swagger/SwaggerConfig.java",
+      "line": 5,
+      "message": "Remove this unused import 'org.springframework.context.annotation.Profile'."
     },
     {
       "rule": "java:S1135",
       "impacts": [{ "quality": "maintainability", "severity": "info" }],
-      "file": "src/main/java/com/dasu/rehab/payment/PaymentClient.java",
-      "line": 12,
+      "file": "src/main/java/com/example/demo/domain/member/entity/Member.java",
+      "line": null,
       "message": "Complete the task associated to this \"TODO\" comment."
     }
   ],
   "opinion": {
     "paragraphs": [
-      "품질 게이트는 통과했어요. 새 코드 커버리지가 86.2%로 기준 80.0%를 넘었고, 새 이슈는 0개예요.",
-      "전체 코드의 신뢰성 등급은 C예요. 열린 신뢰성 이슈 2개가 원인이고, 둘 다 null 처리와 Optional 사용에서 나왔어요.",
-      "Claude 리뷰는 5개를 지적했어요. 동시성이 2개로 가장 많아요. 재고 차감은 주문이 동시에 들어오면 재고가 음수가 될 수 있어서 먼저 보는 게 좋아요."
+      "품질 게이트를 통과했어요. 새 코드 커버리지는 84.2%로 기준 80%를 넘었고, 새 코드 중복은 1.2%예요. 새 코드에서 나온 Sonar 이슈는 없어요.",
+      "전체 코드에는 신뢰성 이슈 2개와 유지보수성 이슈 6개가 남아 있어요. 신뢰성 등급이 C인 이유가 이 2개예요.",
+      "Claude 리뷰는 5개를 지적했어요. 그중 high 2개(동시성 1개, 트랜잭션 1개)는 정원 초과 신청과 바로 이어지는 문제라 먼저 보는 게 좋아요."
     ]
   }
 }

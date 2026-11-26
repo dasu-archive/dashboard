@@ -454,6 +454,35 @@ main.container {
 .conditions__metric { font-weight: 600; }
 .conditions__detail { color: var(--ink-2); font-size: 13px; }
 
+/* ---------- 테스트 결과 ---------- */
+/* 실패한 테스트가 있는 회차도 게시된다. 게이트를 통과해도 테스트는 실패할 수 있다 */
+
+.test-result {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  align-items: baseline;
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--ring);
+  border-left: 3px solid var(--neutral);
+  border-radius: var(--radius-sm);
+}
+
+.test-result--alert { margin: 12px 0 0; }
+.test-result[data-status="passed"] { border-left-color: var(--good); }
+.test-result[data-status="failed"] { border-left-color: var(--critical); }
+
+.test-result__head { font-weight: 600; }
+.test-result[data-status="failed"] .test-result__head { color: var(--bad-text); }
+.test-result__note { color: var(--ink-2); font-size: 13px; }
+
+.text-bad {
+  color: var(--bad-text);
+  font-weight: 600;
+}
+
 /* ---------- 등급 A–E ---------- */
 
 .rating {
@@ -757,8 +786,9 @@ main.container {
   margin-top: 0;
 }
 
+/* 요약 칸 6개: 넓은 화면 3×2, 좁은 화면 2×3 */
 .stats--summary {
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .stat__of {
@@ -883,6 +913,12 @@ main.container {
 .pcard a:not(.pcard__link) {
   position: relative;
   z-index: 1;
+}
+
+.pcard__alerts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
 }
 
 .pcard__alert {

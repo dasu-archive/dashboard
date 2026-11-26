@@ -14,11 +14,11 @@
     {
       "id": "demo-failed",
       "name": "demo-failed",
-      "repo": "example/demo-failed",
-      "lastRunAt": "2026-11-25T09:30:00+09:00",
+      "repo": "dasu-archive/demo-failed",
+      "lastRunAt": "2026-11-26T20:30:00+09:00",
       "qualityGate": "failed",
-      "coverage": 41.0,
-      "claudeFindings": null
+      "coverage": 38.9,
+      "claudeFindings": 0
     }
   ]
 }

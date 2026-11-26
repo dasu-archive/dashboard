@@ -3,9 +3,9 @@
 // 2) 프로젝트마다 latest.json, history.json을 더 읽어서 카드(이슈, 변화, 실패 조건)와 최근 검사 기록을 채운다.
 //    이 파일들이 없어도 1)의 화면은 그대로 둔다.
 import {
-  h, arr, str, isObj, isNum, isName, val, DASH, fmtInt, fmtPercent, fmtTime, timeOf, relTime, shortSha,
+  h, arr, str, isObj, isNum, isName, val, fmtInt, fmtPercent, fmtTime, timeOf, relTime, shortSha,
   repoUrl, commitUrl, linkOrText, gateBadge, gateStatus, fixtureSet, loadJson, LoadError, loadErrorText,
-  stateBox, fixturesBanner, versionBanner,
+  stateBox, fixturesBanner, versionBanner, testSummary,
 } from './common.js';
 
 const set = fixtureSet();
@@ -106,6 +106,11 @@ function overallMetrics(item) {
   return m && isObj(m.overall) ? m.overall : null;
 }
 
+/** latest.json의 테스트 결과. 파일이나 tests가 없으면 null */
+function testsOf(item) {
+  return isObj(item.latest) && isObj(item.latest.tests) ? testSummary(item.latest.tests) : null;
+}
+
 // ---------- 작은 부품 ----------
 
 function stat(label, value, ...sub) {
@@ -144,6 +149,13 @@ function issueList(overall) {
     `${label} `, val(fmtInt(issues[q])), ratingBadge(ratings[q])));
 }
 
+/** 테스트 결과 글자. 실패가 있으면 빨간 굵은 글자 */
+function testText(ts, key) {
+  const text = ts ? ts[key] : null;
+  if (!text) return val(null);
+  return ts.status === 'failed' ? h('span', { class: 'text-bad' }, text) : text;
+}
+
 function when(v) {
   const rel = relTime(v);
   return rel ? h('span', { title: fmtTime(v) }, rel) : val(null);
@@ -151,7 +163,21 @@ function when(v) {
 
 // ---------- 요약 칸 ----------
 
-function renderSummary(items) {
+/** 테스트가 실패한 프로젝트 수. 각 프로젝트의 latest.json을 읽은 뒤에만 안다 */
+function testsTile(items, loaded) {
+  if (!loaded) return stat('테스트 실패', val(null), '불러오는 중');
+  const known = items.filter((i) => testsOf(i) && testsOf(i).status !== 'unknown');
+  const failing = known.filter((i) => testsOf(i).status === 'failed');
+  if (!known.length) return stat('테스트 실패', val(null), '테스트 결과가 없어요');
+  if (!failing.length) return stat('테스트 실패', '없음', `${known.length}개 프로젝트 모두 실패 없음`);
+  const names = failing.slice(0, 2).map((i) => i.name).join(', ');
+  const more = failing.length > 2 ? ` 외 ${failing.length - 2}개` : '';
+  return stat('테스트 실패',
+    [h('span', { class: 'text-bad' }, `${failing.length}개`), h('span', { class: 'stat__of' }, ` / ${known.length}`)],
+    `${names}${more}`);
+}
+
+function renderSummary(items, loaded = false) {
   const ps = items.map((i) => i.p);
   const gates = { passed: 0, failed: 0, unknown: 0 };
   for (const p of ps) gates[gateStatus(p.qualityGate)]++;
@@ -185,6 +211,7 @@ function renderSummary(items) {
         segbar,
         legend),
       stat('평균 커버리지', val(fmtPercent(avg)), lowest ? `가장 낮음: ${lowest.name} ${fmtPercent(lowest.p.coverage)}` : null),
+      testsTile(items, loaded),
       stat('Claude 지적 합계', reviewed.length ? fmtInt(totalFindings) : val(null), notReviewed ? `리뷰 결과 없는 프로젝트 ${notReviewed}개` : '모든 프로젝트 리뷰 있음'),
       stat('마지막 검사', newest ? relTime(newest.p.lastRunAt) : val(null), newest ? `${newest.name} · ${fmtTime(newest.p.lastRunAt)}` : null)));
 }
@@ -196,15 +223,20 @@ function projectCard(item) {
   const status = gateStatus(p.qualityGate);
   const failed = failedConditions(item);
   const overall = overallMetrics(item);
-  const tests = isObj(item.latest) && isObj(item.latest.tests) ? item.latest.tests : null;
+  const ts = testsOf(item);
   const run = isObj(item.latest) && isObj(item.latest.run) ? item.latest.run : null;
   const sha = run ? str(run.commit) : null;
   const neverRan = timeOf(p.lastRunAt) === null && p.qualityGate == null && !isNum(p.coverage);
 
+  const alerts = [
+    failed ? `실패한 조건 ${failed}개` : null,
+    ts && ts.status === 'failed' ? `테스트 ${ts.short}` : null,
+  ].filter(Boolean);
+
   const facts = [
     ['Claude 지적', val(fmtInt(p.claudeFindings))],
     overall ? ['이슈', issueList(overall)] : null,
-    tests ? ['테스트', [`${fmtInt(tests.total) ?? DASH}개`, ' · 실패 ', val(fmtInt(tests.failed))]] : null,
+    ts ? ['테스트', testText(ts, 'text')] : null,
   ].filter(Boolean);
 
   return h('article', { class: 'pcard', data: { status } },
@@ -213,7 +245,7 @@ function projectCard(item) {
         h('h3', null, linkOrText(item.name, item.href, item.href ? 'pcard__link' : null)),
         item.repo ? h('div', { class: 'sub' }, linkOrText(item.repo, repoUrl(item.repo))) : null),
       gateBadge(p.qualityGate)),
-    failed ? h('p', { class: 'pcard__alert' }, `실패한 조건 ${failed}개`) : null,
+    alerts.length ? h('div', { class: 'pcard__alerts' }, alerts.map((a) => h('p', { class: 'pcard__alert' }, a))) : null,
     neverRan
       ? h('p', { class: 'pcard__empty' }, '아직 검사 기록이 없어요')
       : h('div', null,
@@ -237,11 +269,13 @@ function projectTable(items) {
         h('th', { scope: 'col' }, '품질 게이트'),
         h('th', { scope: 'col', class: 'num' }, '커버리지'),
         h('th', { scope: 'col' }, '변화'),
+        h('th', { scope: 'col' }, '테스트'),
         h('th', { scope: 'col', class: 'num' }, 'Claude 지적'),
         h('th', { scope: 'col' }, '이슈'),
         h('th', { scope: 'col' }, '마지막 검사'))),
       h('tbody', null, items.map((item) => {
         const overall = overallMetrics(item);
+        const ts = testsOf(item);
         return h('tr', null,
           h('td', null,
             linkOrText(item.name, item.href, 'project-name'),
@@ -249,6 +283,8 @@ function projectTable(items) {
           h('td', null, gateBadge(item.p.qualityGate)),
           h('td', { class: 'num' }, val(fmtPercent(item.p.coverage))),
           h('td', { class: 'nowrap' }, delta(coverageChange(item)) ?? val(null)),
+          h('td', { class: 'nowrap' }, testText(ts, 'short'),
+            ts && ts.total !== null ? h('div', { class: 'sub' }, `전체 ${fmtInt(ts.total)}개`) : null),
           h('td', { class: 'num' }, val(fmtInt(item.p.claudeFindings))),
           h('td', null, overall ? h('div', { class: 'issues-inline' }, issueList(overall)) : val(null)),
           h('td', { class: 'nowrap' }, when(item.p.lastRunAt), h('div', { class: 'sub' }, val(fmtTime(item.p.lastRunAt)))));
@@ -389,11 +425,13 @@ async function main() {
     return;
   }
 
+  const summary = renderSummary(items);
   const projects = projectsSection(items);
   const recent = recentSection();
-  app.replaceChildren(renderSummary(items), projects.el, recent.el);
+  app.replaceChildren(summary, projects.el, recent.el);
 
   await Promise.allSettled(items.map(loadDetail));
+  summary.replaceWith(renderSummary(items, true));
   projects.render();
   recent.fill(items);
 }

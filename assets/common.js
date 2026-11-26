@@ -137,6 +137,37 @@ export function gateBadge(v) {
   return h('span', { class: 'gate', data: { status: s } }, GATE_TEXT[s]);
 }
 
+// ---------- 테스트 결과 ----------
+// 실패한 테스트가 있는 회차도 게시된다 (2026-11-26 결정). 품질 게이트와는 따로 본다.
+// total은 JUnit XML처럼 실패·건너뜀을 포함한 수.
+
+/**
+ * tests → { status, text, short, total, failed, skipped, passed }
+ *   status: failed(실패 1개 이상) | passed(실패 0, 실행 1개 이상) | unknown(값 없음, 실행 0개)
+ */
+export function testSummary(t) {
+  const tests = isObj(t) ? t : {};
+  const total = Number.isInteger(tests.total) && tests.total >= 0 ? tests.total : null;
+  const failed = Number.isInteger(tests.failed) && tests.failed >= 0 ? tests.failed : null;
+  const skipped = Number.isInteger(tests.skipped) && tests.skipped >= 0 ? tests.skipped : null;
+  const rest = total !== null && failed !== null && skipped !== null ? total - failed - skipped : null;
+  const passed = rest !== null && rest >= 0 ? rest : null;
+  const base = { total, failed, skipped, passed };
+
+  if (failed !== null && failed > 0) {
+    const text = total !== null && total >= failed ? `${fmtInt(total)}개 중 ${fmtInt(failed)}개 실패` : `${fmtInt(failed)}개 실패`;
+    return { ...base, status: 'failed', text, short: `${fmtInt(failed)}개 실패` };
+  }
+  if (failed === 0 && total !== null && total > 0) {
+    let text = `${fmtInt(total)}개 중 실패 없음`;
+    if (skipped === 0) text = `${fmtInt(total)}개 모두 통과`;
+    else if (skipped > 0 && passed !== null) text = `${fmtInt(passed)}개 통과 · ${fmtInt(skipped)}개 건너뜀`;
+    return { ...base, status: 'passed', text, short: '실패 없음' };
+  }
+  if (total === 0) return { ...base, status: 'unknown', text: '실행된 테스트가 없어요', short: '테스트 없음' };
+  return { ...base, status: 'unknown', text: null, short: null };
+}
+
 // ---------- 테스트 데이터 ----------
 
 /** ?fixtures=v1 (또는 1) → 'v1'. 없으면 undefined, 형식이 틀리면 null */

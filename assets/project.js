@@ -3,7 +3,7 @@
 // 미리보기: 루트의 project-template.html?fixtures=v1&id=rehab → fixtures/v1/projects/rehab/latest.json
 import {
   h, arr, str, isObj, isNum, isName, val, DASH, fmtInt, fmtPercent, fmtTime, fmtDate, shortSha,
-  repoUrl, commitUrl, fileUrl, pathText, linkOrText, gateStatus, gateText, fixtureSet,
+  repoUrl, commitUrl, fileUrl, pathText, linkOrText, gateStatus, gateText, fixtureSet, testSummary,
   loadJson, loadErrorText, stateBox, fixturesBanner, versionBanner,
 } from './common.js';
 
@@ -258,18 +258,37 @@ function renderStats(s, scope) {
   return h('div', { class: 'stats' }, cells);
 }
 
-function renderTests(t) {
-  const tests = isObj(t) ? t : {};
-  return h('div', { class: 'subsection' },
+const TEST_NOTE = '실패한 테스트의 이름과 이유는 아직 데이터에 없어요.';
+
+/** 게이트 바로 아래 경고. 게이트를 통과해도 테스트가 실패할 수 있다 */
+function renderTestAlert(ts) {
+  if (ts.status !== 'failed') return null;
+  return h('div', { class: 'test-result test-result--alert', data: { status: 'failed' } },
+    h('span', { class: 'test-result__head' }, `테스트 ${ts.text}`),
+    h('span', { class: 'test-result__note' }, '품질 게이트와 따로 봐요. ', h('a', { href: '#tests' }, '테스트 칸으로')));
+}
+
+function renderTests(ts) {
+  const failedValue = ts.failed !== null && ts.failed > 0
+    ? h('span', { class: 'text-bad' }, fmtInt(ts.failed))
+    : val(fmtInt(ts.failed));
+  return h('div', { class: 'subsection', id: 'tests' },
     h('h3', null, '테스트'),
+    ts.text
+      ? h('p', { class: 'test-result', data: { status: ts.status } },
+        h('span', { class: 'test-result__head' }, ts.text),
+        ts.status === 'failed' ? h('span', { class: 'test-result__note' }, TEST_NOTE) : null)
+      : null,
     h('div', { class: 'stats' },
-      stat('전체', val(fmtInt(tests.total))),
-      stat('실패', val(fmtInt(tests.failed))),
-      stat('건너뜀', val(fmtInt(tests.skipped)))));
+      stat('전체', val(fmtInt(ts.total))),
+      stat('통과', val(fmtInt(ts.passed))),
+      stat('실패', failedValue),
+      stat('건너뜀', val(fmtInt(ts.skipped)))));
 }
 
 function renderOverview(d) {
-  const sec = section('개요', renderGate(d.qualityGate));
+  const ts = testSummary(d.tests);
+  const sec = section('개요', renderGate(d.qualityGate), renderTestAlert(ts));
   const m = isObj(d.metrics) ? d.metrics : {};
   const scopes = [['newCode', '새 코드'], ['overall', '전체 코드']].filter(([k]) => isObj(m[k]));
 
@@ -295,7 +314,7 @@ function renderOverview(d) {
     show(scopes[0][0]);
   }
 
-  sec.append(renderTests(d.tests));
+  sec.append(renderTests(ts));
   return sec;
 }
 

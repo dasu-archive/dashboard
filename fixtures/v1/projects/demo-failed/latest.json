@@ -3,71 +3,70 @@
   "project": {
     "id": "demo-failed",
     "name": "demo-failed",
-    "repo": "example/demo-failed"
+    "repo": "dasu-archive/demo-failed"
   },
   "run": {
-    "at": "2026-11-25T09:30:00+09:00",
-    "commit": "9e1b7c4d2a6f8e0b3c5d7a9f1e2b4c6d8a0f2e47",
+    "at": "2026-11-26T20:30:00+09:00",
+    "commit": "00000000000000000000000000000000000000d1",
     "branch": "main",
-    "build": 7
+    "build": 3
   },
   "qualityGate": {
     "status": "failed",
     "conditions": [
       { "metric": "newIssues", "comparator": "gt", "threshold": 0, "actual": 3, "status": "failed" },
-      { "metric": "newHotspotsReviewed", "comparator": "lt", "threshold": 100, "actual": 50.0, "status": "failed" },
-      { "metric": "newCoverage", "comparator": "lt", "threshold": 80, "actual": 41.0, "status": "failed" },
-      { "metric": "newDuplication", "comparator": "gt", "threshold": 3, "actual": null, "status": "passed" }
+      { "metric": "newHotspotsReviewed", "comparator": "lt", "threshold": 100, "actual": null, "status": "passed" },
+      { "metric": "newCoverage", "comparator": "lt", "threshold": 80, "actual": null, "status": "passed" },
+      { "metric": "newDuplication", "comparator": "gt", "threshold": 3, "actual": 7.8, "status": "failed" }
     ]
   },
   "metrics": {
     "overall": {
-      "coverage": 41.0,
+      "coverage": 38.9,
       "duplication": 6.3,
-      "lines": 1250,
-      "issues": { "reliability": 1, "security": 1, "maintainability": 2 }
+      "lines": 820,
+      "issues": { "reliability": 1, "security": 1, "maintainability": 2 },
+      "acceptedIssues": null
     },
     "newCode": {
-      "coverage": 41.0,
-      "duplication": null,
-      "issues": { "reliability": 1, "security": 1, "maintainability": 1 }
+      "coverage": null,
+      "duplication": 7.8,
+      "issues": { "reliability": 1, "security": null, "maintainability": 2 }
     }
   },
-  "tests": { "total": 24, "failed": 0, "skipped": 0 },
-  "claude": null,
+  "newCodeDefinition": { "type": "days", "value": "30" },
+  "tests": { "total": 12, "failed": 1, "skipped": 2 },
+  "claude": {
+    "counts": { "transaction": 0, "concurrency": 0, "scale": 0, "failure": 0, "other": 0 },
+    "findings": []
+  },
   "sonarIssues": [
     {
-      "rule": "java:S2077",
-      "quality": "security",
-      "severity": "high",
-      "file": "src/main/java/demo/UserDao.java",
-      "line": 40,
-      "message": "Make sure using a dynamically formatted SQL query is safe here."
+      "rule": "java:S2142",
+      "impacts": [
+        { "quality": "reliability", "severity": "high" },
+        { "quality": "maintainability", "severity": "medium" }
+      ],
+      "file": "src/main/java/com/example/demo/worker/RetryWorker.java",
+      "line": 47,
+      "message": "Either re-interrupt this method or rethrow the \"InterruptedException\" that can be caught here."
     },
     {
-      "rule": "java:S2189",
-      "quality": "reliability",
-      "severity": "blocker",
-      "file": "src/main/java/demo/Worker.java",
-      "line": 22,
-      "message": "Add an end condition to this loop."
+      "rule": "java:S5332",
+      "impacts": [{ "quality": "security", "severity": "low" }],
+      "file": "src/main/resources/application.yml",
+      "line": null,
+      "message": "Using http protocol is insecure. Use https instead."
     },
     {
       "rule": "java:S1451",
-      "quality": "maintainability",
-      "severity": "low",
-      "file": "src/main/java/demo/Worker.java",
-      "line": null,
-      "message": "Add or update the header of this file."
-    },
-    {
-      "rule": "java:S1192",
-      "quality": "maintainability",
-      "severity": "medium",
+      "impacts": [{ "quality": "maintainability", "severity": "low" }],
       "file": null,
       "line": null,
-      "message": "Define a constant instead of duplicating this literal \"SELECT * FROM users\" 3 times."
+      "message": "Add or update the license header required for this project."
     }
   ],
-  "opinion": null
+  "opinion": {
+    "paragraphs": []
+  }
 }
