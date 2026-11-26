@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "project": {
+    "id": "rehab",
+    "name": "rehab",
+    "repo": "dasu-archive/rehab"
+  },
+  "run": {
+    "at": "2026-11-26T23:09:38+09:00",
+    "commit": "897f6ccaebb74fcff2b22db9e665e248b6eeb2fa",
+    "branch": "main",
+    "build": 10
+  },
+  "qualityGate": {
+    "status": "passed",
+    "conditions": [
+      {
+        "metric": "newIssues",
+        "comparator": "gt",
+        "threshold": 0,
+        "actual": 0,
+        "status": "passed"
+      }
+    ]
+  },
+  "metrics": {
+    "overall": {
+      "coverage": 43.4,
+      "duplication": 0.0,
+      "lines": 460,
+      "issues": {
+        "reliability": 0,
+        "security": 0,
+        "maintainability": 0
+      },
+      "ratings": {
+        "reliability": "A",
+        "security": "A",
+        "maintainability": "A"
+      },
+      "linesToCover": 121,
+      "uncoveredLines": 62,
+      "acceptedIssues": 0,
+      "hotspots": {
+        "total": 0,
+        "reviewedPercent": null
+      }
+    },
+    "newCode": {
+      "coverage": null,
+      "duplication": null,
+      "issues": {
+        "reliability": 0,
+        "security": 0,
+        "maintainability": 0
+      },
+      "ratings": {
+        "reliability": "A",
+        "security": "A",
+        "maintainability": "A"
+      },
+      "linesToCover": 0,
+      "uncoveredLines": 0,
+      "acceptedIssues": 0,
+      "hotspots": {
+        "total": 0,
+        "reviewedPercent": null
+      }
+    }
+  },
+  "newCodeDefinition": {
+    "type": "previous_version",
+    "value": null
+  },
+  "tests": {
+    "total": 6,
+    "failed": 1,
+    "skipped": 0
+  },
+  "claude": {
+    "counts": {
+      "transaction": 1,
+      "concurrency": 2,
+      "scale": 1,
+      "failure": 1,
+      "other": 2
+    },
+    "findings": [
+      {
+        "category": "scale",
+        "severity": "high",
+        "file": "src/main/java/com/example/demo/domain/event/repository/EventRepositoryCustomImpl.java",
+        "line": 49,
+        "message": "조회 쿼리에 `offset`/`limit`이 없어서 페이지 요청과 상관없이 조건에 맞는 이벤트 전체를 메모리로 읽어 와요. 데이터가 많아지면 느려지고 OOM 위험도 있고, 응답 Page의 content도 페이지 크기와 안 맞아요. `.offset(pageable.getOffset()).limit(pageable.getPageSize())`를 추가해 주세요.",
+        "firstSeen": "2026-11-26T21:41:12+09:00"
+      },
+      {
+        "category": "concurrency",
+        "severity": "high",
+        "file": "src/main/java/com/example/demo/domain/event/service/EventService.java",
+        "line": 62,
+        "message": "정원 확인 후 증가(check-then-act)가 락 없이 이뤄져서, 동시에 신청하면 둘 다 통과해 정원을 넘기고 applicantCount도 덮어써져 틀어져요. `findById` 대신 비관적 락(`@Lock(PESSIMISTIC_WRITE)`)이나 `@Version`을 쓰거나, `update ... set count=count+1 where count<capacity` 조건부 UPDATE로 바꿔 주세요.",
+        "firstSeen": "2026-11-26T21:41:12+09:00"
+      },
+      {
+        "category": "concurrency",
+        "severity": "high",
+        "file": "src/main/java/com/example/demo/domain/event/service/EventService.java",
+        "line": 68,
+        "message": "중복 신청을 조회로만 확인하고 Applicant에 (event_id, member_id) 유니크 제약이 없어서, 같은 사용자가 동시에 요청하면 중복 저장돼요. 유니크 제약을 추가하고 DataIntegrityViolationException을 중복 신청 오류로 처리해 주세요. 중복 행이 생기면 `findByMemberAndEvent`의 Optional 반환도 예외를 던져요.",
+        "firstSeen": "2026-11-26T21:41:12+09:00"
+      },
+      {
+        "category": "other",
+        "severity": "medium",
+        "file": "src/main/java/com/example/demo/domain/event/controller/EventController.java",
+        "line": 33,
+        "message": "`@RequestBody`에 `@Valid`가 없어서 RequestAddEventDto의 `@NotBlank`, `@Min(1)` 검증이 실행되지 않아요. 빈 이름이나 0 이하·null 정원이 그대로 저장될 수 있으니 `@Valid`를 붙여 주세요. `/regist`의 DTO도 마찬가지예요.",
+        "firstSeen": "2026-11-26T21:41:12+09:00"
+      },
+      {
+        "category": "failure",
+        "severity": "medium",
+        "file": "src/main/java/com/example/demo/domain/event/service/EventService.java",
+        "line": 62,
+        "message": "`orElseThrow()`를 인자 없이 써서 이벤트나 회원이 없으면 NoSuchElementException이 나는데, 핸들러에 처리기가 없어 500으로 나가요. `CustomException(ErrorCode.DATA_NOT_FOUND)`를 던지도록 바꿔 주세요. 회원 조회(63줄)도 같아요.",
+        "firstSeen": "2026-11-26T21:41:12+09:00"
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "file": "src/main/java/com/example/demo/domain/event/entity/Event.java",
+        "line": 29,
+        "message": "엔티티에 클래스 단위 `@Setter`와 `@AllArgsConstructor`, `@Builder`가 있어서 `applicantCount`나 `capacity`를 어디서든 바꿀 수 있어요. 정원 불변식이 쉽게 깨지니 `@Setter`를 빼고 변경 메서드로만 다뤄 주세요. 또 `@Builder`를 쓰면 `applicants` 초기값이 무시돼 null이 되고 `applicantCount`도 null이 될 수 있어요(`@Builder.Default` 필요).",
+        "firstSeen": "2026-11-26T21:41:12+09:00"
+      },
+      {
+        "category": "transaction",
+        "severity": "low",
+        "file": "src/main/java/com/example/demo/domain/event/service/EventService.java",
+        "line": 21,
+        "message": "`jakarta.transaction.Transactional`을 쓰고 있어서 Spring의 `readOnly` 같은 옵션을 못 쓰고, 조회 메서드(`getEvent`, `searchEvent`)에도 트랜잭션이 없어요. `org.springframework.transaction.annotation.Transactional`로 바꾸고 조회에는 `readOnly = true`를 붙여 주세요.",
+        "firstSeen": "2026-11-26T21:41:12+09:00"
+      }
+    ]
+  },
+  "sonarIssues": [],
+  "opinion": {
+    "paragraphs": [
+      "테스트 6개 중 1개가 실패했어요. 품질 게이트는 통과했어요. 조건은 새 이슈 0건이고, 실제로도 0건이에요.",
+      "Sonar가 본 전체 코드는 신뢰성·보안·유지보수성 이슈가 모두 0건이고 등급도 전부 A예요. 중복률은 0.0%예요. 다만 전체 커버리지가 43.4%로 낮은 편이고, 새 코드에는 커버할 라인이 없어서 새 코드 커버리지는 따로 나오지 않았어요.",
+      "Claude 리뷰에는 high 지적이 3건 있어요. 이벤트 조회에 offset/limit이 없어 전체를 메모리로 읽는 문제(scale)가 있어요. 정원 확인 후 증가가 락 없이 이뤄지는 문제와 중복 신청에 유니크 제약이 없는 문제(둘 다 concurrency)도 있어요. 이어서 `@Valid` 누락과 `orElseThrow()`가 500으로 나가는 문제가 medium으로 있고, 엔티티 `@Setter`와 트랜잭션 import는 low예요.",
+      "정리하면 Sonar는 깨끗하지만 동시성과 조회 규모 문제는 정적 분석에 잡히지 않았어요. 실패한 테스트를 먼저 확인하고, 그다음 high 지적 3건을 보는 순서를 권해요."
+    ]
+  }
+}

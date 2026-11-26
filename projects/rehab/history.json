@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "runs": [
+    {
+      "at": "2026-11-26T21:56:14+09:00",
+      "commit": "0c068a344e2fed3df455b8e5642cf1d48fba3e73",
+      "qualityGate": "passed",
+      "coverage": 43.4,
+      "newCoverage": null,
+      "issues": {
+        "reliability": 0,
+        "security": 0,
+        "maintainability": 0
+      },
+      "claude": {
+        "transaction": 1,
+        "concurrency": 2,
+        "scale": 1,
+        "failure": 1,
+        "other": 2
+      }
+    },
+    {
+      "at": "2026-11-26T23:09:38+09:00",
+      "commit": "897f6ccaebb74fcff2b22db9e665e248b6eeb2fa",
+      "qualityGate": "passed",
+      "coverage": 43.4,
+      "newCoverage": null,
+      "issues": {
+        "reliability": 0,
+        "security": 0,
+        "maintainability": 0
+      },
+      "claude": {
+        "transaction": 1,
+        "concurrency": 2,
+        "scale": 1,
+        "failure": 1,
+        "other": 2
+      }
+    }
+  ]
+}

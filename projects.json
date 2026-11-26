@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-11-26T23:09:38+09:00",
+  "projects": [
+    {
+      "id": "rehab",
+      "name": "rehab",
+      "repo": "dasu-archive/rehab",
+      "lastRunAt": "2026-11-26T23:09:38+09:00",
+      "qualityGate": "passed",
+      "coverage": 43.4,
+      "claudeFindings": 7
+    }
+  ]
+}
