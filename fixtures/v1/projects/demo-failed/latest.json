@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "project": {
+    "id": "demo-failed",
+    "name": "demo-failed",
+    "repo": "example/demo-failed"
+  },
+  "run": {
+    "at": "2026-11-25T09:30:00+09:00",
+    "commit": "9e1b7c4d2a6f8e0b3c5d7a9f1e2b4c6d8a0f2e47",
+    "branch": "main",
+    "build": 7
+  },
+  "qualityGate": {
+    "status": "failed",
+    "conditions": [
+      { "metric": "newIssues", "comparator": "gt", "threshold": 0, "actual": 3, "status": "failed" },
+      { "metric": "newHotspotsReviewed", "comparator": "lt", "threshold": 100, "actual": 50.0, "status": "failed" },
+      { "metric": "newCoverage", "comparator": "lt", "threshold": 80, "actual": 41.0, "status": "failed" },
+      { "metric": "newDuplication", "comparator": "gt", "threshold": 3, "actual": null, "status": "passed" }
+    ]
+  },
+  "metrics": {
+    "overall": {
+      "coverage": 41.0,
+      "duplication": 6.3,
+      "lines": 1250,
+      "issues": { "reliability": 1, "security": 1, "maintainability": 2 }
+    },
+    "newCode": {
+      "coverage": 41.0,
+      "duplication": null,
+      "issues": { "reliability": 1, "security": 1, "maintainability": 1 }
+    }
+  },
+  "tests": { "total": 24, "failed": 0, "skipped": 0 },
+  "claude": null,
+  "sonarIssues": [
+    {
+      "rule": "java:S2077",
+      "quality": "security",
+      "severity": "high",
+      "file": "src/main/java/demo/UserDao.java",
+      "line": 40,
+      "message": "Make sure using a dynamically formatted SQL query is safe here."
+    },
+    {
+      "rule": "java:S2189",
+      "quality": "reliability",
+      "severity": "blocker",
+      "file": "src/main/java/demo/Worker.java",
+      "line": 22,
+      "message": "Add an end condition to this loop."
+    },
+    {
+      "rule": "java:S1451",
+      "quality": "maintainability",
+      "severity": "low",
+      "file": "src/main/java/demo/Worker.java",
+      "line": null,
+      "message": "Add or update the header of this file."
+    },
+    {
+      "rule": "java:S1192",
+      "quality": "maintainability",
+      "severity": "medium",
+      "file": null,
+      "line": null,
+      "message": "Define a constant instead of duplicating this literal \"SELECT * FROM users\" 3 times."
+    }
+  ],
+  "opinion": null
+}

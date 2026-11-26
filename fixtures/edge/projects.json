@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 2,
+  "updatedAt": "2026-11-26T22:10:00+09:00",
+  "futureField": { "note": "이 화면이 모르는 필드예요. 무시돼야 해요." },
+  "projects": [
+    {
+      "id": "edge-nulls",
+      "name": "edge-nulls (값 없음·빈 목록)",
+      "repo": "example/edge-nulls",
+      "lastRunAt": null,
+      "qualityGate": null,
+      "coverage": null,
+      "claudeFindings": 0
+    },
+    {
+      "id": "edge-version",
+      "name": "edge-version (모르는 버전)",
+      "repo": "example/edge-version",
+      "lastRunAt": "2026-11-26T22:00:00+09:00",
+      "qualityGate": "passed",
+      "coverage": 90.0,
+      "claudeFindings": null,
+      "badge": "모르는 필드"
+    },
+    {
+      "id": "edge-xss",
+      "name": "<img src=x onerror=alert(1)> 이상한 글자",
+      "repo": "example/edge-xss",
+      "lastRunAt": "2026-11-26T22:05:00+09:00",
+      "qualityGate": "failed",
+      "coverage": 0.0,
+      "claudeFindings": 2
+    },
+    {
+      "id": "edge-missing",
+      "name": "edge-missing (파일 없음)",
+      "repo": "example/edge-missing",
+      "lastRunAt": "2026-11-26T22:06:00+09:00",
+      "qualityGate": "passed",
+      "coverage": 50.0,
+      "claudeFindings": 1
+    },
+    {
+      "id": "../rehab",
+      "name": "edge-bad-id (링크 없어야 함)",
+      "repo": "not a repo",
+      "lastRunAt": "2026-11-26 22:07",
+      "qualityGate": "OK",
+      "coverage": "72.4",
+      "claudeFindings": -1
+    }
+  ]
+}

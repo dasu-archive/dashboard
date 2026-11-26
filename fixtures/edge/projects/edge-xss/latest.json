@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "project": {
+    "id": "edge-xss",
+    "name": "<img src=x onerror=alert(1)> 이상한 글자",
+    "repo": "example/edge-xss"
+  },
+  "run": {
+    "at": "2026-11-26T22:05:00+09:00",
+    "commit": "javascript:alert(1)",
+    "branch": "<b>main</b>",
+    "build": 5
+  },
+  "qualityGate": {
+    "status": "failed",
+    "conditions": [
+      { "metric": "<script>alert(1)</script>", "comparator": "gt", "threshold": 0, "actual": 2, "status": "failed" }
+    ]
+  },
+  "metrics": {
+    "overall": {
+      "coverage": 0.0,
+      "duplication": 0.0,
+      "lines": 10,
+      "issues": { "reliability": 0, "security": 0, "maintainability": 2 }
+    },
+    "newCode": {
+      "coverage": 0.0,
+      "duplication": 0.0,
+      "issues": { "reliability": 0, "security": 0, "maintainability": 2 }
+    }
+  },
+  "tests": { "total": 1, "failed": 0, "skipped": 0 },
+  "claude": {
+    "counts": { "transaction": 0, "concurrency": 0, "scale": 0, "failure": 0, "other": 2 },
+    "findings": [
+      {
+        "category": "other",
+        "severity": "high",
+        "file": "src/main/java/한글 폴더/My File.java",
+        "line": 0,
+        "message": "<script>alert(\"xss\")</script> 그리고 List<T>, Map<String, List<Long>>이 글자 그대로 보여야 해요.",
+        "firstSeen": "2026-11-26T22:05:00+09:00"
+      },
+      {
+        "category": "unknown-cat",
+        "severity": "urgent",
+        "file": "../밖/File.java",
+        "line": 7,
+        "message": "띄어쓰기없이아주길게이어지는문장이표를얼마나넓히는지보는시험이에요띄어쓰기없이아주길게이어지는문장이표를얼마나넓히는지보는시험이에요",
+        "firstSeen": "not-a-date"
+      }
+    ]
+  },
+  "sonarIssues": [
+    {
+      "rule": "<b>rule</b>",
+      "impacts": [{ "quality": "maintainability", "severity": "low" }],
+      "file": "src/a.js",
+      "line": "12",
+      "message": "javascript:alert(1) <a href=\"https://example.com\">링크처럼 보이는 글자</a>"
+    }
+  ],
+  "opinion": {
+    "paragraphs": [
+      "<b>굵게</b>가 굵게 보이면 안 되고 글자 그대로 보여야 해요.",
+      "두 번째 문단 <script>alert(2)</script>"
+    ]
+  }
+}

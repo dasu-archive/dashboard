@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "project": {
+    "id": "edge-nulls",
+    "name": "edge-nulls (값 없음·빈 목록)",
+    "repo": "example/edge-nulls"
+  },
+  "run": {
+    "at": null,
+    "commit": null,
+    "branch": null,
+    "build": null
+  },
+  "qualityGate": {
+    "status": null,
+    "conditions": []
+  },
+  "metrics": {
+    "overall": {
+      "coverage": null,
+      "duplication": null,
+      "lines": null,
+      "issues": { "reliability": null, "security": 0, "maintainability": null },
+      "ratings": null,
+      "linesToCover": null,
+      "uncoveredLines": null,
+      "hotspots": null,
+      "acceptedIssues": null
+    },
+    "newCode": {
+      "coverage": null,
+      "duplication": null,
+      "issues": { "reliability": 0, "security": 0, "maintainability": 0 }
+    }
+  },
+  "newCodeDefinition": null,
+  "tests": { "total": 0, "failed": 0, "skipped": 0 },
+  "claude": {
+    "counts": { "transaction": 0, "concurrency": 0, "scale": 0, "failure": 0, "other": 0 },
+    "findings": []
+  },
+  "sonarIssues": [],
+  "opinion": { "paragraphs": [] }
+}

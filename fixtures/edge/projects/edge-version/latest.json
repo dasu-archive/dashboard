@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 2,
+  "project": {
+    "id": "edge-version",
+    "name": "edge-version (모르는 버전)",
+    "repo": "example/edge-version",
+    "owner": "모르는 필드"
+  },
+  "run": {
+    "at": "2026-11-26T22:00:00+09:00",
+    "commit": "b7e4d1a0c3f6e9b2d5a8c1f4e7b0d3a6c9f2e5b8",
+    "branch": "release/1.2",
+    "build": 3,
+    "durationSec": 120
+  },
+  "qualityGate": {
+    "status": "passed",
+    "conditions": [
+      { "metric": "new_coverage", "comparator": "LT", "threshold": "80", "actual": "91.5", "status": "passed" },
+      { "metric": "newSomethingElse", "comparator": "gt", "threshold": 5, "actual": 1, "status": "passed" }
+    ]
+  },
+  "metrics": {
+    "overall": {
+      "coverage": 90.0,
+      "duplication": 0.0,
+      "lines": 800,
+      "issues": { "reliability": 0, "security": 0, "maintainability": 1 },
+      "complexity": 42
+    }
+  },
+  "deployments": [{ "env": "모르는 필드" }],
+  "tests": { "total": 12, "failed": 0, "skipped": 0 },
+  "claude": null,
+  "sonarIssues": [
+    {
+      "rule": "java:S100",
+      "impacts": [{ "quality": "accessibility", "severity": "critical" }],
+      "file": "src/main/java/demo/A.java",
+      "line": 3,
+      "message": "Rename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'."
+    }
+  ],
+  "opinion": {
+    "paragraphs": ["버전이 다른 데이터예요. 화면은 경고를 띄우고 아는 칸만 보여줘야 해요."]
+  }
+}

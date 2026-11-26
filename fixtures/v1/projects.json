@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-11-26T21:00:00+09:00",
+  "projects": [
+    {
+      "id": "rehab",
+      "name": "rehab",
+      "repo": "dasu-archive/rehab",
+      "lastRunAt": "2026-11-26T21:00:00+09:00",
+      "qualityGate": "passed",
+      "coverage": 72.4,
+      "claudeFindings": 5
+    },
+    {
+      "id": "demo-failed",
+      "name": "demo-failed",
+      "repo": "example/demo-failed",
+      "lastRunAt": "2026-11-25T09:30:00+09:00",
+      "qualityGate": "failed",
+      "coverage": 41.0,
+      "claudeFindings": null
+    }
+  ]
+}

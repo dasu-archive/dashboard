@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>프로젝트 · Code NyangE 검사 결과</title>
+  <link rel="stylesheet" href="../../assets/style.css" id="style">
+  <script>
+    // 내부(Jenkins)가 이 파일을 projects/<id>/index.html로 그대로 복사한다. 그때 공통 파일은 ../../assets/에 있다.
+    // 루트의 project-template.html을 직접 열 때(테스트 데이터 미리보기)는 assets/가 같은 폴더에 있다.
+    (function () {
+      var base = /\/project-template\.html$/.test(location.pathname) ? 'assets/' : '../../assets/';
+      document.getElementById('style').href = base + 'style.css';
+      var script = document.createElement('script');
+      script.type = 'module';
+      script.src = base + 'project.js';
+      document.head.appendChild(script);
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" data-link="list" href="../../">Code NyangE 검사 결과</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="notices"></div>
+    <div id="app">
+      <div class="state" data-state="loading">불러오는 중</div>
+    </div>
+    <noscript>
+      <div class="state" data-state="error">이 페이지는 JavaScript가 켜져 있어야 보여요.</div>
+    </noscript>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <a data-link="list" href="../../">← 프로젝트 목록</a>
+    </div>
+  </footer>
+</body>
+</html>
