@@ -1,0 +1,217 @@
+{
+    "schemaVersion":  1,
+    "project":  {
+                    "id":  "batch-worker",
+                    "name":  "batch-worker",
+                    "repo":  "example/batch-worker"
+                },
+    "run":  {
+                "at":  "2026-11-26T18:10:00+09:00",
+                "commit":  "ed4bb13d810ba25c8c1f7639b9e4e955ed4bb13d",
+                "branch":  "main",
+                "build":  14
+            },
+    "qualityGate":  {
+                        "status":  "failed",
+                        "conditions":  [
+                                           {
+                                               "metric":  "newIssues",
+                                               "comparator":  "gt",
+                                               "threshold":  0,
+                                               "actual":  4,
+                                               "status":  "failed"
+                                           },
+                                           {
+                                               "metric":  "newHotspotsReviewed",
+                                               "comparator":  "lt",
+                                               "threshold":  100,
+                                               "actual":  100,
+                                               "status":  "passed"
+                                           },
+                                           {
+                                               "metric":  "newCoverage",
+                                               "comparator":  "lt",
+                                               "threshold":  80,
+                                               "actual":  52.3,
+                                               "status":  "failed"
+                                           },
+                                           {
+                                               "metric":  "newDuplication",
+                                               "comparator":  "gt",
+                                               "threshold":  3,
+                                               "actual":  1.4,
+                                               "status":  "passed"
+                                           }
+                                       ]
+                    },
+    "metrics":  {
+                    "overall":  {
+                                    "coverage":  58.2,
+                                    "duplication":  2.4,
+                                    "lines":  3560,
+                                    "issues":  {
+                                                   "reliability":  2,
+                                                   "security":  1,
+                                                   "maintainability":  8
+                                               },
+                                    "ratings":  {
+                                                    "reliability":  "C",
+                                                    "security":  "E",
+                                                    "maintainability":  "B"
+                                                }
+                                },
+                    "newCode":  {
+                                    "coverage":  52.3,
+                                    "duplication":  1.4,
+                                    "issues":  {
+                                                   "reliability":  1,
+                                                   "security":  0,
+                                                   "maintainability":  3
+                                               }
+                                }
+                },
+    "newCodeDefinition":  {
+                              "type":  "days",
+                              "value":  "30"
+                          },
+    "tests":  {
+                  "total":  82,
+                  "failed":  0,
+                  "skipped":  1
+              },
+    "claude":  {
+                   "counts":  {
+                                  "transaction":  2,
+                                  "concurrency":  2,
+                                  "scale":  1,
+                                  "failure":  1,
+                                  "other":  1
+                              },
+                   "findings":  [
+                                    {
+                                        "category":  "transaction",
+                                        "severity":  "high",
+                                        "file":  "src/main/java/com/example/batchworker/transaction/Service1.java",
+                                        "line":  20,
+                                        "message":  "같은 클래스 안에서 @Transactional 메서드를 직접 불러서 트랜잭션이 적용되지 않아요.",
+                                        "firstSeen":  "2026-11-26T18:10:00+09:00"
+                                    },
+                                    {
+                                        "category":  "transaction",
+                                        "severity":  "medium",
+                                        "file":  "src/main/java/com/example/batchworker/transaction/Service2.java",
+                                        "line":  27,
+                                        "message":  "같은 클래스 안에서 @Transactional 메서드를 직접 불러서 트랜잭션이 적용되지 않아요.",
+                                        "firstSeen":  "2026-11-25T18:10:00+09:00"
+                                    },
+                                    {
+                                        "category":  "concurrency",
+                                        "severity":  "low",
+                                        "file":  "src/main/java/com/example/batchworker/concurrency/Service1.java",
+                                        "line":  34,
+                                        "message":  "조회한 뒤 바꾸는 구조라 요청이 동시에 오면 값이 꼬일 수 있어요.",
+                                        "firstSeen":  "2026-11-24T18:10:00+09:00"
+                                    },
+                                    {
+                                        "category":  "concurrency",
+                                        "severity":  "high",
+                                        "file":  "src/main/java/com/example/batchworker/concurrency/Service2.java",
+                                        "line":  41,
+                                        "message":  "조회한 뒤 바꾸는 구조라 요청이 동시에 오면 값이 꼬일 수 있어요.",
+                                        "firstSeen":  "2026-11-26T18:10:00+09:00"
+                                    },
+                                    {
+                                        "category":  "scale",
+                                        "severity":  "medium",
+                                        "file":  "src/main/java/com/example/batchworker/scale/Service1.java",
+                                        "line":  48,
+                                        "message":  "목록을 돌면서 하나씩 다시 조회해서 N+1 쿼리가 생겨요.",
+                                        "firstSeen":  "2026-11-25T18:10:00+09:00"
+                                    },
+                                    {
+                                        "category":  "failure",
+                                        "severity":  "low",
+                                        "file":  "src/main/java/com/example/batchworker/failure/Service1.java",
+                                        "line":  55,
+                                        "message":  "외부 API 호출에 타임아웃이 없어서 상대 서버가 느려지면 같이 멈춰요.",
+                                        "firstSeen":  "2026-11-24T18:10:00+09:00"
+                                    },
+                                    {
+                                        "category":  "other",
+                                        "severity":  "high",
+                                        "file":  "src/main/java/com/example/batchworker/other/Service1.java",
+                                        "line":  62,
+                                        "message":  "예외를 잡고 아무것도 하지 않아서 실패 원인이 남지 않아요.",
+                                        "firstSeen":  "2026-11-26T18:10:00+09:00"
+                                    }
+                                ]
+               },
+    "sonarIssues":  [
+                        {
+                            "rule":  "java:S2259",
+                            "impacts":  [
+                                            {
+                                                "quality":  "reliability",
+                                                "severity":  "high"
+                                            }
+                                        ],
+                            "file":  "src/main/java/com/example/batchworker/Legacy1.java",
+                            "line":  11,
+                            "message":  "A \"NullPointerException\" could be thrown; \"result\" is nullable here."
+                        },
+                        {
+                            "rule":  "java:S2259",
+                            "impacts":  [
+                                            {
+                                                "quality":  "reliability",
+                                                "severity":  "medium"
+                                            }
+                                        ],
+                            "file":  "src/main/java/com/example/batchworker/Legacy1.java",
+                            "line":  24,
+                            "message":  "A \"NullPointerException\" could be thrown; \"result\" is nullable here."
+                        },
+                        {
+                            "rule":  "java:S2077",
+                            "impacts":  [
+                                            {
+                                                "quality":  "security",
+                                                "severity":  "medium"
+                                            }
+                                        ],
+                            "file":  "src/main/java/com/example/batchworker/Legacy2.java",
+                            "line":  11,
+                            "message":  "Make sure using a dynamically formatted SQL query is safe here."
+                        },
+                        {
+                            "rule":  "java:S1144",
+                            "impacts":  [
+                                            {
+                                                "quality":  "maintainability",
+                                                "severity":  "low"
+                                            }
+                                        ],
+                            "file":  "src/main/java/com/example/batchworker/Legacy3.java",
+                            "line":  11,
+                            "message":  "Remove this unused private \"helper\" method."
+                        },
+                        {
+                            "rule":  "java:S1144",
+                            "impacts":  [
+                                            {
+                                                "quality":  "maintainability",
+                                                "severity":  "high"
+                                            }
+                                        ],
+                            "file":  "src/main/java/com/example/batchworker/Legacy3.java",
+                            "line":  24,
+                            "message":  "Remove this unused private \"helper\" method."
+                        }
+                    ],
+    "opinion":  {
+                    "paragraphs":  [
+                                       "품질 게이트는 실패했어요. 전체 커버리지는 58.2%이고 새 코드 커버리지는 52.3%예요.",
+                                       "Claude 리뷰는 7개를 지적했어요."
+                                   ]
+                }
+}

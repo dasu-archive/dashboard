@@ -53,6 +53,26 @@ export function fmtTime(v) {
   return m ? `${m[1]} ${m[2]}` : v;
 }
 
+/** ISO 시각(시간대 포함) → 밀리초. 계약 형식이 아니면 null (브라우저마다 다르게 읽는 것을 막는다) */
+const ISO_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:\d{2})$/;
+export function timeOf(v) {
+  if (typeof v !== 'string' || !ISO_RE.test(v)) return null;
+  const t = Date.parse(v);
+  return Number.isNaN(t) ? null : t;
+}
+
+/** "3시간 전" 같은 말. 30일이 넘으면 날짜 */
+export function relTime(v, now = Date.now()) {
+  const t = timeOf(v);
+  if (t === null) return null;
+  const min = Math.floor((now - t) / 60000);
+  if (min < 1) return '방금 전';
+  if (min < 60) return `${min}분 전`;
+  if (min < 60 * 24) return `${Math.floor(min / 60)}시간 전`;
+  if (min < 60 * 24 * 30) return `${Math.floor(min / (60 * 24))}일 전`;
+  return fmtDate(v);
+}
+
 export function fmtDate(v) {
   const t = fmtTime(v);
   return t && /^\d{4}-\d{2}-\d{2} /.test(t) ? t.slice(0, 10) : t;

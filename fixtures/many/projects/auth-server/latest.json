@@ -1,0 +1,121 @@
+{
+    "schemaVersion":  1,
+    "project":  {
+                    "id":  "auth-server",
+                    "name":  "auth-server",
+                    "repo":  "example/auth-server"
+                },
+    "run":  {
+                "at":  "2026-11-25T23:30:00+09:00",
+                "commit":  "14108f0685b54c88a8fac38464c1d22b14108f06",
+                "branch":  "main",
+                "build":  13
+            },
+    "qualityGate":  {
+                        "status":  "passed",
+                        "conditions":  [
+                                           {
+                                               "metric":  "newIssues",
+                                               "comparator":  "gt",
+                                               "threshold":  0,
+                                               "actual":  0,
+                                               "status":  "passed"
+                                           },
+                                           {
+                                               "metric":  "newHotspotsReviewed",
+                                               "comparator":  "lt",
+                                               "threshold":  100,
+                                               "actual":  100,
+                                               "status":  "passed"
+                                           },
+                                           {
+                                               "metric":  "newCoverage",
+                                               "comparator":  "lt",
+                                               "threshold":  80,
+                                               "actual":  91.1,
+                                               "status":  "passed"
+                                           },
+                                           {
+                                               "metric":  "newDuplication",
+                                               "comparator":  "gt",
+                                               "threshold":  3,
+                                               "actual":  1.4,
+                                               "status":  "passed"
+                                           }
+                                       ]
+                    },
+    "metrics":  {
+                    "overall":  {
+                                    "coverage":  88.9,
+                                    "duplication":  2.4,
+                                    "lines":  3520,
+                                    "issues":  {
+                                                   "reliability":  0,
+                                                   "security":  0,
+                                                   "maintainability":  1
+                                               },
+                                    "ratings":  {
+                                                    "reliability":  "A",
+                                                    "security":  "A",
+                                                    "maintainability":  "A"
+                                                }
+                                },
+                    "newCode":  {
+                                    "coverage":  91.1,
+                                    "duplication":  1.4,
+                                    "issues":  {
+                                                   "reliability":  0,
+                                                   "security":  0,
+                                                   "maintainability":  0
+                                               }
+                                }
+                },
+    "newCodeDefinition":  {
+                              "type":  "days",
+                              "value":  "30"
+                          },
+    "tests":  {
+                  "total":  79,
+                  "failed":  0,
+                  "skipped":  1
+              },
+    "claude":  {
+                   "counts":  {
+                                  "transaction":  1,
+                                  "concurrency":  0,
+                                  "scale":  0,
+                                  "failure":  0,
+                                  "other":  0
+                              },
+                   "findings":  [
+                                    {
+                                        "category":  "transaction",
+                                        "severity":  "high",
+                                        "file":  "src/main/java/com/example/authserver/transaction/Service1.java",
+                                        "line":  20,
+                                        "message":  "같은 클래스 안에서 @Transactional 메서드를 직접 불러서 트랜잭션이 적용되지 않아요.",
+                                        "firstSeen":  "2026-11-25T23:30:00+09:00"
+                                    }
+                                ]
+               },
+    "sonarIssues":  [
+                        {
+                            "rule":  "java:S1144",
+                            "impacts":  [
+                                            {
+                                                "quality":  "maintainability",
+                                                "severity":  "low"
+                                            }
+                                        ],
+                            "file":  "src/main/java/com/example/authserver/Legacy3.java",
+                            "line":  11,
+                            "message":  "Remove this unused private \"helper\" method."
+                        }
+                    ],
+    "opinion":  {
+                    "paragraphs":  [
+                                       "품질 게이트는 통과했어요. 전체 커버리지는 88.9%이고 새 코드 커버리지는 91.1%예요.",
+                                       "Claude 리뷰는 1개를 지적했어요."
+                                   ]
+                }
+}

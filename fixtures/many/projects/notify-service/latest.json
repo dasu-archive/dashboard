@@ -1,0 +1,141 @@
+{
+    "schemaVersion":  1,
+    "project":  {
+                    "id":  "notify-service",
+                    "name":  "notify-service",
+                    "repo":  "example/notify-service"
+                },
+    "run":  {
+                "at":  "2026-11-26T21:20:00+09:00",
+                "commit":  "c5628afd6840a2ee58e46bd852013be4c5628afd",
+                "branch":  "main",
+                "build":  14
+            },
+    "qualityGate":  {
+                        "status":  "passed",
+                        "conditions":  [
+                                           {
+                                               "metric":  "newIssues",
+                                               "comparator":  "gt",
+                                               "threshold":  0,
+                                               "actual":  0,
+                                               "status":  "passed"
+                                           },
+                                           {
+                                               "metric":  "newHotspotsReviewed",
+                                               "comparator":  "lt",
+                                               "threshold":  100,
+                                               "actual":  100,
+                                               "status":  "passed"
+                                           },
+                                           {
+                                               "metric":  "newCoverage",
+                                               "comparator":  "lt",
+                                               "threshold":  80,
+                                               "actual":  86.4,
+                                               "status":  "passed"
+                                           },
+                                           {
+                                               "metric":  "newDuplication",
+                                               "comparator":  "gt",
+                                               "threshold":  3,
+                                               "actual":  1.4,
+                                               "status":  "passed"
+                                           }
+                                       ]
+                    },
+    "metrics":  {
+                    "overall":  {
+                                    "coverage":  70.8,
+                                    "duplication":  2.4,
+                                    "lines":  3560,
+                                    "issues":  {
+                                                   "reliability":  0,
+                                                   "security":  0,
+                                                   "maintainability":  3
+                                               },
+                                    "ratings":  {
+                                                    "reliability":  "A",
+                                                    "security":  "A",
+                                                    "maintainability":  "A"
+                                                }
+                                },
+                    "newCode":  {
+                                    "coverage":  86.4,
+                                    "duplication":  1.4,
+                                    "issues":  {
+                                                   "reliability":  0,
+                                                   "security":  0,
+                                                   "maintainability":  0
+                                               }
+                                }
+                },
+    "newCodeDefinition":  {
+                              "type":  "days",
+                              "value":  "30"
+                          },
+    "tests":  {
+                  "total":  82,
+                  "failed":  0,
+                  "skipped":  1
+              },
+    "claude":  {
+                   "counts":  {
+                                  "transaction":  1,
+                                  "concurrency":  1,
+                                  "scale":  0,
+                                  "failure":  0,
+                                  "other":  0
+                              },
+                   "findings":  [
+                                    {
+                                        "category":  "transaction",
+                                        "severity":  "high",
+                                        "file":  "src/main/java/com/example/notifyservice/transaction/Service1.java",
+                                        "line":  20,
+                                        "message":  "같은 클래스 안에서 @Transactional 메서드를 직접 불러서 트랜잭션이 적용되지 않아요.",
+                                        "firstSeen":  "2026-11-26T21:20:00+09:00"
+                                    },
+                                    {
+                                        "category":  "concurrency",
+                                        "severity":  "medium",
+                                        "file":  "src/main/java/com/example/notifyservice/concurrency/Service1.java",
+                                        "line":  27,
+                                        "message":  "조회한 뒤 바꾸는 구조라 요청이 동시에 오면 값이 꼬일 수 있어요.",
+                                        "firstSeen":  "2026-11-25T21:20:00+09:00"
+                                    }
+                                ]
+               },
+    "sonarIssues":  [
+                        {
+                            "rule":  "java:S1144",
+                            "impacts":  [
+                                            {
+                                                "quality":  "maintainability",
+                                                "severity":  "low"
+                                            }
+                                        ],
+                            "file":  "src/main/java/com/example/notifyservice/Legacy3.java",
+                            "line":  11,
+                            "message":  "Remove this unused private \"helper\" method."
+                        },
+                        {
+                            "rule":  "java:S1144",
+                            "impacts":  [
+                                            {
+                                                "quality":  "maintainability",
+                                                "severity":  "high"
+                                            }
+                                        ],
+                            "file":  "src/main/java/com/example/notifyservice/Legacy3.java",
+                            "line":  24,
+                            "message":  "Remove this unused private \"helper\" method."
+                        }
+                    ],
+    "opinion":  {
+                    "paragraphs":  [
+                                       "품질 게이트는 통과했어요. 전체 커버리지는 70.8%이고 새 코드 커버리지는 86.4%예요.",
+                                       "Claude 리뷰는 2개를 지적했어요."
+                                   ]
+                }
+}

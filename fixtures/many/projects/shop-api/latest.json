@@ -1,0 +1,149 @@
+{
+    "schemaVersion":  1,
+    "project":  {
+                    "id":  "shop-api",
+                    "name":  "shop-api",
+                    "repo":  "example/shop-api"
+                },
+    "run":  {
+                "at":  "2026-11-26T20:40:00+09:00",
+                "commit":  "f518dee1a81adfed2523d4805128c69af518dee1",
+                "branch":  "main",
+                "build":  14
+            },
+    "qualityGate":  {
+                        "status":  "passed",
+                        "conditions":  [
+                                           {
+                                               "metric":  "newIssues",
+                                               "comparator":  "gt",
+                                               "threshold":  0,
+                                               "actual":  0,
+                                               "status":  "passed"
+                                           },
+                                           {
+                                               "metric":  "newHotspotsReviewed",
+                                               "comparator":  "lt",
+                                               "threshold":  100,
+                                               "actual":  100,
+                                               "status":  "passed"
+                                           },
+                                           {
+                                               "metric":  "newCoverage",
+                                               "comparator":  "lt",
+                                               "threshold":  80,
+                                               "actual":  84,
+                                               "status":  "passed"
+                                           },
+                                           {
+                                               "metric":  "newDuplication",
+                                               "comparator":  "gt",
+                                               "threshold":  3,
+                                               "actual":  1.4,
+                                               "status":  "passed"
+                                           }
+                                       ]
+                    },
+    "metrics":  {
+                    "overall":  {
+                                    "coverage":  81.3,
+                                    "duplication":  2.4,
+                                    "lines":  3560,
+                                    "issues":  {
+                                                   "reliability":  0,
+                                                   "security":  0,
+                                                   "maintainability":  2
+                                               },
+                                    "ratings":  {
+                                                    "reliability":  "A",
+                                                    "security":  "A",
+                                                    "maintainability":  "A"
+                                                }
+                                },
+                    "newCode":  {
+                                    "coverage":  84,
+                                    "duplication":  1.4,
+                                    "issues":  {
+                                                   "reliability":  0,
+                                                   "security":  0,
+                                                   "maintainability":  0
+                                               }
+                                }
+                },
+    "newCodeDefinition":  {
+                              "type":  "days",
+                              "value":  "30"
+                          },
+    "tests":  {
+                  "total":  82,
+                  "failed":  0,
+                  "skipped":  1
+              },
+    "claude":  {
+                   "counts":  {
+                                  "transaction":  1,
+                                  "concurrency":  1,
+                                  "scale":  1,
+                                  "failure":  0,
+                                  "other":  0
+                              },
+                   "findings":  [
+                                    {
+                                        "category":  "transaction",
+                                        "severity":  "high",
+                                        "file":  "src/main/java/com/example/shopapi/transaction/Service1.java",
+                                        "line":  20,
+                                        "message":  "같은 클래스 안에서 @Transactional 메서드를 직접 불러서 트랜잭션이 적용되지 않아요.",
+                                        "firstSeen":  "2026-11-26T20:40:00+09:00"
+                                    },
+                                    {
+                                        "category":  "concurrency",
+                                        "severity":  "medium",
+                                        "file":  "src/main/java/com/example/shopapi/concurrency/Service1.java",
+                                        "line":  27,
+                                        "message":  "조회한 뒤 바꾸는 구조라 요청이 동시에 오면 값이 꼬일 수 있어요.",
+                                        "firstSeen":  "2026-11-25T20:40:00+09:00"
+                                    },
+                                    {
+                                        "category":  "scale",
+                                        "severity":  "low",
+                                        "file":  "src/main/java/com/example/shopapi/scale/Service1.java",
+                                        "line":  34,
+                                        "message":  "목록을 돌면서 하나씩 다시 조회해서 N+1 쿼리가 생겨요.",
+                                        "firstSeen":  "2026-11-24T20:40:00+09:00"
+                                    }
+                                ]
+               },
+    "sonarIssues":  [
+                        {
+                            "rule":  "java:S1144",
+                            "impacts":  [
+                                            {
+                                                "quality":  "maintainability",
+                                                "severity":  "low"
+                                            }
+                                        ],
+                            "file":  "src/main/java/com/example/shopapi/Legacy3.java",
+                            "line":  11,
+                            "message":  "Remove this unused private \"helper\" method."
+                        },
+                        {
+                            "rule":  "java:S1144",
+                            "impacts":  [
+                                            {
+                                                "quality":  "maintainability",
+                                                "severity":  "high"
+                                            }
+                                        ],
+                            "file":  "src/main/java/com/example/shopapi/Legacy3.java",
+                            "line":  24,
+                            "message":  "Remove this unused private \"helper\" method."
+                        }
+                    ],
+    "opinion":  {
+                    "paragraphs":  [
+                                       "품질 게이트는 통과했어요. 전체 커버리지는 81.3%이고 새 코드 커버리지는 84%예요.",
+                                       "Claude 리뷰는 3개를 지적했어요."
+                                   ]
+                }
+}

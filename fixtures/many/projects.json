@@ -1,0 +1,60 @@
+{
+    "schemaVersion":  1,
+    "updatedAt":  "2026-11-26T21:20:00+09:00",
+    "projects":  [
+                     {
+                         "id":  "notify-service",
+                         "name":  "notify-service",
+                         "repo":  "example/notify-service",
+                         "lastRunAt":  "2026-11-26T21:20:00+09:00",
+                         "qualityGate":  "passed",
+                         "coverage":  70.8,
+                         "claudeFindings":  2
+                     },
+                     {
+                         "id":  "shop-api",
+                         "name":  "shop-api",
+                         "repo":  "example/shop-api",
+                         "lastRunAt":  "2026-11-26T20:40:00+09:00",
+                         "qualityGate":  "passed",
+                         "coverage":  81.3,
+                         "claudeFindings":  3
+                     },
+                     {
+                         "id":  "batch-worker",
+                         "name":  "batch-worker",
+                         "repo":  "example/batch-worker",
+                         "lastRunAt":  "2026-11-26T18:10:00+09:00",
+                         "qualityGate":  "failed",
+                         "coverage":  58.2,
+                         "claudeFindings":  7
+                     },
+                     {
+                         "id":  "auth-server",
+                         "name":  "auth-server",
+                         "repo":  "example/auth-server",
+                         "lastRunAt":  "2026-11-25T23:30:00+09:00",
+                         "qualityGate":  "passed",
+                         "coverage":  88.9,
+                         "claudeFindings":  1
+                     },
+                     {
+                         "id":  "legacy-admin",
+                         "name":  "legacy-admin",
+                         "repo":  "example/legacy-admin",
+                         "lastRunAt":  "2026-11-24T10:05:00+09:00",
+                         "qualityGate":  "failed",
+                         "coverage":  23.5,
+                         "claudeFindings":  null
+                     },
+                     {
+                         "id":  "new-project",
+                         "name":  "new-project",
+                         "repo":  "example/new-project",
+                         "lastRunAt":  null,
+                         "qualityGate":  null,
+                         "coverage":  null,
+                         "claudeFindings":  null
+                     }
+                 ]
+}

@@ -1,0 +1,158 @@
+{
+    "schemaVersion":  1,
+    "project":  {
+                    "id":  "legacy-admin",
+                    "name":  "legacy-admin",
+                    "repo":  "example/legacy-admin"
+                },
+    "run":  {
+                "at":  "2026-11-24T10:05:00+09:00",
+                "commit":  "410612fc2a4603f0d4a7ee48b47d8ee9410612fc",
+                "branch":  "main",
+                "build":  13
+            },
+    "qualityGate":  {
+                        "status":  "failed",
+                        "conditions":  [
+                                           {
+                                               "metric":  "newIssues",
+                                               "comparator":  "gt",
+                                               "threshold":  0,
+                                               "actual":  4,
+                                               "status":  "failed"
+                                           },
+                                           {
+                                               "metric":  "newHotspotsReviewed",
+                                               "comparator":  "lt",
+                                               "threshold":  100,
+                                               "actual":  100,
+                                               "status":  "passed"
+                                           },
+                                           {
+                                               "metric":  "newCoverage",
+                                               "comparator":  "lt",
+                                               "threshold":  80,
+                                               "actual":  15,
+                                               "status":  "failed"
+                                           },
+                                           {
+                                               "metric":  "newDuplication",
+                                               "comparator":  "gt",
+                                               "threshold":  3,
+                                               "actual":  1.4,
+                                               "status":  "passed"
+                                           }
+                                       ]
+                    },
+    "metrics":  {
+                    "overall":  {
+                                    "coverage":  23.5,
+                                    "duplication":  2.4,
+                                    "lines":  3520,
+                                    "issues":  {
+                                                   "reliability":  5,
+                                                   "security":  3,
+                                                   "maintainability":  21
+                                               },
+                                    "ratings":  {
+                                                    "reliability":  "D",
+                                                    "security":  "E",
+                                                    "maintainability":  "D"
+                                                }
+                                },
+                    "newCode":  {
+                                    "coverage":  15,
+                                    "duplication":  1.4,
+                                    "issues":  {
+                                                   "reliability":  1,
+                                                   "security":  0,
+                                                   "maintainability":  3
+                                               }
+                                }
+                },
+    "newCodeDefinition":  {
+                              "type":  "days",
+                              "value":  "30"
+                          },
+    "tests":  {
+                  "total":  79,
+                  "failed":  0,
+                  "skipped":  1
+              },
+    "claude":  null,
+    "sonarIssues":  [
+                        {
+                            "rule":  "java:S2259",
+                            "impacts":  [
+                                            {
+                                                "quality":  "reliability",
+                                                "severity":  "high"
+                                            }
+                                        ],
+                            "file":  "src/main/java/com/example/legacyadmin/Legacy1.java",
+                            "line":  11,
+                            "message":  "A \"NullPointerException\" could be thrown; \"result\" is nullable here."
+                        },
+                        {
+                            "rule":  "java:S2259",
+                            "impacts":  [
+                                            {
+                                                "quality":  "reliability",
+                                                "severity":  "medium"
+                                            }
+                                        ],
+                            "file":  "src/main/java/com/example/legacyadmin/Legacy1.java",
+                            "line":  24,
+                            "message":  "A \"NullPointerException\" could be thrown; \"result\" is nullable here."
+                        },
+                        {
+                            "rule":  "java:S2077",
+                            "impacts":  [
+                                            {
+                                                "quality":  "security",
+                                                "severity":  "medium"
+                                            }
+                                        ],
+                            "file":  "src/main/java/com/example/legacyadmin/Legacy2.java",
+                            "line":  11,
+                            "message":  "Make sure using a dynamically formatted SQL query is safe here."
+                        },
+                        {
+                            "rule":  "java:S2077",
+                            "impacts":  [
+                                            {
+                                                "quality":  "security",
+                                                "severity":  "low"
+                                            }
+                                        ],
+                            "file":  "src/main/java/com/example/legacyadmin/Legacy2.java",
+                            "line":  24,
+                            "message":  "Make sure using a dynamically formatted SQL query is safe here."
+                        },
+                        {
+                            "rule":  "java:S1144",
+                            "impacts":  [
+                                            {
+                                                "quality":  "maintainability",
+                                                "severity":  "low"
+                                            }
+                                        ],
+                            "file":  "src/main/java/com/example/legacyadmin/Legacy3.java",
+                            "line":  11,
+                            "message":  "Remove this unused private \"helper\" method."
+                        },
+                        {
+                            "rule":  "java:S1144",
+                            "impacts":  [
+                                            {
+                                                "quality":  "maintainability",
+                                                "severity":  "high"
+                                            }
+                                        ],
+                            "file":  "src/main/java/com/example/legacyadmin/Legacy3.java",
+                            "line":  24,
+                            "message":  "Remove this unused private \"helper\" method."
+                        }
+                    ],
+    "opinion":  null
+}

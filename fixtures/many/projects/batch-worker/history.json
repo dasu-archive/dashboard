@@ -1,0 +1,81 @@
+{
+    "schemaVersion":  1,
+    "runs":  [
+                 {
+                     "at":  "2026-11-23T18:10:00+09:00",
+                     "commit":  "7f96be2492d5cca7dc387bb6dbaa1b0e7f96be24",
+                     "qualityGate":  "passed",
+                     "coverage":  63,
+                     "newCoverage":  80.5,
+                     "issues":  {
+                                    "reliability":  1,
+                                    "security":  0,
+                                    "maintainability":  6
+                                },
+                     "claude":  {
+                                    "transaction":  1,
+                                    "concurrency":  1,
+                                    "scale":  1,
+                                    "failure":  1,
+                                    "other":  1
+                                }
+                 },
+                 {
+                     "at":  "2026-11-24T18:10:00+09:00",
+                     "commit":  "35492895478aeffb24dd627a6d133f6235492895",
+                     "qualityGate":  "passed",
+                     "coverage":  62.4,
+                     "newCoverage":  80,
+                     "issues":  {
+                                    "reliability":  1,
+                                    "security":  1,
+                                    "maintainability":  7
+                                },
+                     "claude":  {
+                                    "transaction":  2,
+                                    "concurrency":  1,
+                                    "scale":  1,
+                                    "failure":  1,
+                                    "other":  1
+                                }
+                 },
+                 {
+                     "at":  "2026-11-25T18:10:00+09:00",
+                     "commit":  "6450b238801c0d86cff02a70e670952e6450b238",
+                     "qualityGate":  "failed",
+                     "coverage":  61,
+                     "newCoverage":  71.2,
+                     "issues":  {
+                                    "reliability":  2,
+                                    "security":  1,
+                                    "maintainability":  7
+                                },
+                     "claude":  {
+                                    "transaction":  2,
+                                    "concurrency":  1,
+                                    "scale":  1,
+                                    "failure":  1,
+                                    "other":  1
+                                }
+                 },
+                 {
+                     "at":  "2026-11-26T18:10:00+09:00",
+                     "commit":  "ed4bb13d810ba25c8c1f7639b9e4e955ed4bb13d",
+                     "qualityGate":  "failed",
+                     "coverage":  58.2,
+                     "newCoverage":  52.3,
+                     "issues":  {
+                                    "reliability":  2,
+                                    "security":  1,
+                                    "maintainability":  8
+                                },
+                     "claude":  {
+                                    "transaction":  2,
+                                    "concurrency":  2,
+                                    "scale":  1,
+                                    "failure":  1,
+                                    "other":  1
+                                }
+                 }
+             ]
+}

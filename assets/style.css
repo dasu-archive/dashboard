@@ -28,6 +28,9 @@
   --dot-ring: rgba(11, 11, 11, 0.28);
   --link: #256abf;
   --focus: #2a78d6;
+  --meter: #2a78d6;            /* 커버리지 막대 */
+  --good-text: #006300;        /* 올라감 글자 7.4:1 */
+  --bad-text: #b42318;         /* 내려감·실패 글자 6.4:1 */
 
   /* 상태색: 라이트·다크 공통 (고정) */
   --good: #0ca30c;
@@ -68,6 +71,9 @@
     --dot-ring: rgba(255, 255, 255, 0.18);
     --link: #6da7ec;
     --focus: #3987e5;
+    --meter: #3987e5;
+    --good-text: #0ca30c;
+    --bad-text: #f97066;
   }
 }
 
@@ -85,6 +91,9 @@
   --dot-ring: rgba(255, 255, 255, 0.18);
   --link: #6da7ec;
   --focus: #3987e5;
+  --meter: #3987e5;
+  --good-text: #0ca30c;
+  --bad-text: #f97066;
 }
 
 /* ---------- 기본 ---------- */
@@ -742,6 +751,256 @@ main.container {
   max-width: 72ch;
 }
 
+/* ---------- 메인 대시보드 ---------- */
+
+.section--first {
+  margin-top: 0;
+}
+
+.stats--summary {
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+}
+
+.stat__of {
+  color: var(--ink-2);
+  font-size: 15px;
+  font-weight: 400;
+}
+
+/* 품질 게이트 비율 막대: 통과·실패·판정 없음. 숫자는 옆 글자로도 보인다 */
+.segbar {
+  display: flex;
+  gap: 2px;
+  height: 8px;
+  margin: 4px 0 2px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--surface-2);
+}
+
+.segbar span {
+  min-width: 4px;
+}
+
+.segbar [data-status="passed"] { background: var(--good); }
+.segbar [data-status="failed"] { background: var(--critical); }
+.segbar [data-status="unknown"] { background: var(--neutral); }
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  color: var(--ink-2);
+  font-size: 13px;
+}
+
+.legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.legend__item::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--neutral);
+  box-shadow: 0 0 0 1px var(--dot-ring);
+}
+
+.legend__item[data-status="passed"]::before { background: var(--good); }
+.legend__item[data-status="failed"]::before { background: var(--critical); }
+
+/* 검색·필터·정렬 줄 */
+.toolbar input[type="search"] {
+  flex: 1 1 220px;
+  min-width: 0;
+  font: inherit;
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+}
+
+/* 프로젝트 카드 */
+.pcards {
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.pcard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--ring);
+  border-top: 3px solid var(--neutral);
+  border-radius: var(--radius);
+  transition: box-shadow 0.15s ease;
+}
+
+.pcard[data-status="passed"] { border-top-color: var(--good); }
+.pcard[data-status="failed"] { border-top-color: var(--critical); }
+
+.pcard:hover {
+  box-shadow: 0 4px 16px rgba(11, 11, 11, 0.08);
+}
+
+.pcard__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.pcard__title {
+  min-width: 0;
+}
+
+.pcard h3 {
+  font-size: 16px;
+}
+
+/* 카드 어디를 눌러도 프로젝트로 간다. 안쪽 링크(레포, 커밋)는 따로 눌린다 */
+.pcard__link {
+  color: var(--ink);
+}
+
+.pcard__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+}
+
+.pcard a:not(.pcard__link) {
+  position: relative;
+  z-index: 1;
+}
+
+.pcard__alert {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--bad-text);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.pcard__alert::before {
+  content: "!";
+  display: inline-grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  font-size: 11px;
+  line-height: 1;
+}
+
+.pcard__empty {
+  color: var(--ink-2);
+  font-size: 14px;
+}
+
+.pcard__cover {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+}
+
+.pcard__big {
+  font-size: 22px;
+  font-weight: 650;
+  line-height: 1.2;
+}
+
+.meter {
+  height: 6px;
+  margin-top: 8px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+
+.meter > span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--meter);
+}
+
+.delta {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.delta[data-dir="up"] { color: var(--good-text); }
+.delta[data-dir="down"] { color: var(--bad-text); }
+.delta[data-dir="flat"] { color: var(--ink-2); font-weight: 400; }
+
+.facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 12px;
+  margin: 0;
+  font-size: 14px;
+}
+
+.facts dt {
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.facts dd {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+}
+
+.issue {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.issues-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+}
+
+.rating--sm {
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+}
+
+.pcard__foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  color: var(--ink-2);
+  font-size: 13px;
+}
+
 /* ---------- 좁은 화면 ---------- */
 
 @media (max-width: 640px) {
@@ -754,6 +1013,13 @@ main.container {
   .table th,
   .table td { padding: 8px 10px; }
   .filters__count { margin-left: 0; width: 100%; }
+  .stats--summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pcards { grid-template-columns: minmax(0, 1fr); }
+  .pcard__big { font-size: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pcard { transition: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
